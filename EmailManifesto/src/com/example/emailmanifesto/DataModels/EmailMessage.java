@@ -10,6 +10,7 @@ public class EmailMessage {
 	private List<String> to;
 	private List<String> cc;
 	private List<String> bcc;
+	//lowest priority is 1 (blue), highest is 5 (red)
 	private int priority;
 	private DateTime sentTime;
 	private InterfaceMessageContent messageContent;
