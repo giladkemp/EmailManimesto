@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 public class InboxActivity extends FragmentActivity implements
 		ActionBar.OnNavigationListener {
-
+//Hi sam
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
 	 * current dropdown position.
