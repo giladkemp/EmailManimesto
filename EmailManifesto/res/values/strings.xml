@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">EmailManifesto</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_section1">Default Inbox</string>
+    <string name="title_section2">Priority Inbox</string>
+    <string name="title_section3">Date Inbox</string>
+    <string name="title_activity_compose">ComposeActivity</string>
+
+</resources>
