@@ -63,6 +63,7 @@ public class MeetingMessageContent implements InterfaceMessageContent {
 
 	public void setAvailableIntervals(List<Interval> availableIntervals) {
 		this.availableIntervals = availableIntervals;
+		
 	}
 
 	// hashCode and equals
