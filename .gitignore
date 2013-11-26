@@ -2,6 +2,9 @@
 ## Eclipse
 #################
 
+#Project files
+/project.properties
+
 *.pydevproject
 .project
 .metadata
