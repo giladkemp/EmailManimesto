@@ -1,9 +1,13 @@
 package com.example.emailmanifesto.DataModels;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.Duration;
 import org.joda.time.Interval;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
+
 
 public class MeetingMessageContent implements InterfaceMessageContent {
 	private String title;
@@ -22,7 +26,12 @@ public class MeetingMessageContent implements InterfaceMessageContent {
 		this.description = description;
 		this.duration = duration;
 		this.availableIntervals = availableIntervals;
+		
 	}
+	
+	
+	
+	
 
 	// getters and setters
 	public String getTitle() {

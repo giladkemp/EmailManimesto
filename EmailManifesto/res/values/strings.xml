@@ -7,5 +7,7 @@
     <string name="title_section2">Priority Inbox</string>
     <string name="title_section3">Date Inbox</string>
     <string name="title_activity_compose">ComposeActivity</string>
+    <string name="title_activity_test_doodle">TestDoodleActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

@@ -1,8 +1,13 @@
 package com.example.emailmanifesto.DataModels;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.joda.time.Interval;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
+
 
 public class EmailMessage {
 	private String subject;
@@ -142,6 +147,36 @@ public class EmailMessage {
 			return false;
 		return true;
 	}
+	
+	
+	// create doodle for meeting
+//		public String createDoodle() {
+//			MeetingMessageContent m = null;
+//			if (this.messageContent.getClass() == MeetingMessageContent.class) {
+//				 m = (MeetingMessageContent)this.messageContent;
+//			} else {
+//				return "false";
+//			}
+//			MeetingDoodle.startDoodleFactory();
+//			
+//			ArrayList<String> dateTimes = new ArrayList<String>();
+//			DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
+//			for (Interval interval : m.getAvailableIntervals()) {
+//				dateTimes.add(fmt.print(interval.getStart()));
+//			}
+//			
+//			// add participants
+//			ArrayList<String> participants = new ArrayList<String>(this.getTo());
+//			participants.addAll(getCc());
+//			
+//			
+//			String id = MeetingDoodle.newPoll(m.getTitle(), m.getDescription(), 
+//					(String[])dateTimes.toArray(), (String[])participants.toArray());
+//			return "doodle.com/" + id;
+//		}
+//	
+//	
+	
 	
 	//TODO: add toJson and fromJson functionality
 	

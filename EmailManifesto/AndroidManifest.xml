@@ -30,6 +30,10 @@
             android:name="com.example.emailmanifesto.ComposeActivity"
             android:label="@string/title_activity_compose" >
         </activity>
+        <activity
+            android:name="com.example.emailmanifesto.TestDoodleActivity"
+            android:label="@string/title_activity_test_doodle" >
+        </activity>
     </application>
 
 </manifest>
