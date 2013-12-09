@@ -21,6 +21,21 @@ public interface InterfaceEmailManager {
 
 	/**
 	 * 
+	 * @param subject
+	 * 		subject of the email
+	 * @param body
+	 * 		body of the email
+	 * @param recipients
+	 * 		comma separated list of recipients
+	 * @param jsonAttachment
+	 * 		JSON to be attached to the email
+	 * @param callback
+	 * 		callback used to process results of the email sending operation
+	 */
+	public void sendEmailWithJsonAttachmentAsync(String subject, String body, String recipients, String jsonAttachment, SentEmailCallback callback);
+	
+	/**
+	 * 
 	 * @param minUID
 	 * 		minimum UID to be returned
 	 * @return

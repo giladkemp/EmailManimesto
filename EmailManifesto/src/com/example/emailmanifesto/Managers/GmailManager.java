@@ -245,6 +245,13 @@ public class GmailManager implements InterfaceEmailManager {
 		emailTask.execute(new String[] { subject, body, mAccount.name,
 				recipients });
 	}
+	
+	@Override
+	public void sendEmailWithJsonAttachmentAsync(String subject, String body,
+			String recipients, String jsonAttachment, SentEmailCallback callback) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	private class SendGmailEmailTask extends AsyncTask<String, Void, Boolean> {
 		private SentEmailCallback callback;
@@ -297,4 +304,6 @@ public class GmailManager implements InterfaceEmailManager {
 			}
 		}
 	}
+
+
 }
