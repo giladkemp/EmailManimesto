@@ -41,8 +41,8 @@
             android:label="@string/title_activity_compose" >
         </activity>
         <activity
-            android:name="com.example.emailmanifesto.TestDoodleActivity"
-            android:label="@string/title_activity_test_doodle" >
+            android:name="com.example.emailmanifesto.TestDoodleActivity">
+            
         </activity>
     </application>
 
