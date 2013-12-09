@@ -3,10 +3,14 @@ package com.example.emailmanifesto.DataModels;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.joda.time.Interval;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class MeetingMessageContent implements InterfaceMessageContent {
@@ -15,6 +19,9 @@ public class MeetingMessageContent implements InterfaceMessageContent {
 	private String description;
 	private Duration duration;
 	private List<Interval> availableIntervals;
+	
+	
+	private static DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
 
 	// constructors
 	public MeetingMessageContent(String title, String location,
@@ -26,12 +33,12 @@ public class MeetingMessageContent implements InterfaceMessageContent {
 		this.description = description;
 		this.duration = duration;
 		this.availableIntervals = availableIntervals;
-		
+
 	}
-	
-	
-	
-	
+
+
+
+
 
 	// getters and setters
 	public String getTitle() {
@@ -72,7 +79,7 @@ public class MeetingMessageContent implements InterfaceMessageContent {
 
 	public void setAvailableIntervals(List<Interval> availableIntervals) {
 		this.availableIntervals = availableIntervals;
-		
+
 	}
 
 	// hashCode and equals
@@ -129,6 +136,87 @@ public class MeetingMessageContent implements InterfaceMessageContent {
 		} else if (!title.equals(other.title))
 			return false;
 		return true;
+	}
+
+
+
+
+
+	@Override
+	public JSONObject toJson() {
+		// TODO Auto-generated method stub
+		
+		JSONObject main = new JSONObject();
+		try {
+			main.put("title", this.getTitle());
+			main.put("location", this.getLocation());
+			main.put("description", this.getDescription());
+			
+			// convert duration into minutes
+			main.put("duration", this.getDuration().getStandardMinutes());
+			
+			// for each interval, get startTime and endTime
+			// place into array as [ [sTime1, eTime1],  [sTime2, eTime2]  etc ]
+			JSONArray timeArr = new JSONArray();
+			for (Interval i : this.getAvailableIntervals()) {
+				String sTime = fmt.print(i.getStart());
+				String eTime = fmt.print(i.getEnd());
+				JSONArray intervalArr = new JSONArray();
+				intervalArr.put(sTime);
+				intervalArr.put(eTime);
+				timeArr.put(intervalArr);
+			}
+			
+			main.put("availableIntervals", timeArr);
+//			main.put("intervalCount", this.getAvailableIntervals().size());
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+
+		return main;
+	}
+
+
+
+
+
+	@Override
+	public InterfaceMessageContent fromJson(JSONObject json) {
+		// TODO Auto-generated method stub
+		try {
+			this.title = json.getString("title");
+			this.location = json.getString("location");
+			this.description = json.getString("description");
+			
+			long durationMins = json.getLong("duration");
+			this.duration = new Duration(durationMins);
+			
+			// for each interval in json, need to create interval var
+			JSONArray timeArr = json.getJSONArray("availableIntervals");
+			this.availableIntervals.clear();
+			for (int i = 0; i < timeArr.length(); i++) {
+				JSONArray intervalArr = timeArr.getJSONArray(i);
+				// get sTime and eTime
+				DateTime sDT = fmt.parseDateTime(intervalArr.getString(0)); // sTime
+				DateTime eDT = fmt.parseDateTime(intervalArr.getString(1)); // eTime
+				Interval interval = new Interval(sDT, eDT);
+				this.availableIntervals.add(interval);
+				
+			}
+			
+			
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		
+		
+		return this;
 	}
 
 }

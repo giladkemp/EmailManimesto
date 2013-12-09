@@ -7,7 +7,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
-
+import org.json.*;
 
 public class EmailMessage {
 	private String subject;
@@ -19,6 +19,9 @@ public class EmailMessage {
 	private int priority;
 	private DateTime sentTime;
 	private InterfaceMessageContent messageContent;
+	
+	
+	private static DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
 	
 	public EmailMessage(String subject, String from, List<String> to,
 			List<String> cc, List<String> bcc, int priority, DateTime sentTime,
@@ -179,5 +182,93 @@ public class EmailMessage {
 	
 	
 	//TODO: add toJson and fromJson functionality
+	public JSONObject toJson() {
+	    
+
+		
+		
+		JSONObject overall = new JSONObject();
+		JSONObject main = new JSONObject();
+		// first, create json for each smaller items
+		try {
+			main.put("subject", this.getSubject());
+			main.put("from", this.getFrom());
+			
+			// JSON arrays of strings
+			main.put("to", new JSONArray(this.getTo()));
+			main.put("cc", new JSONArray(this.getCc()));
+			main.put("bcc", new JSONArray(this.getBcc()));
+			
+			// int
+			main.put("priority", this.getPriority());
+			
+			// date times
+			main.put("sentTime", fmt.print((this.getSentTime())));
+			
+			
+			// message content
+			main.put("messageContent", this.getMessageContent().toJson());
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		
+		
+		
+		return main;
+	}
 	
+
+	public EmailMessage fromJson(JSONObject json) {
+		// set current object fields to values in json
+		try {
+			this.subject = json.getString("subject");
+			this.from = json.getString("from");
+
+			// get all to values
+			JSONArray toArr = json.getJSONArray("to");
+			this.to.clear();
+			for (int i = 0; i < toArr.length(); i++) {
+				String to = toArr.getString(i);
+				this.to.add(to);
+			}
+
+
+			// get all cc values
+			JSONArray ccArr = json.getJSONArray("cc");
+			this.cc.clear();
+			for (int i = 0; i < ccArr.length(); i++) {
+				String cc = ccArr.getString(i);
+				this.cc.add(cc);
+			}
+
+			// get all bcc values
+			JSONArray bccArr = json.getJSONArray("bcc");
+			this.bcc.clear();
+			for (int i = 0; i < bccArr.length(); i++) {
+				String bcc = bccArr.getString(i);
+				this.bcc.add(bcc);
+			}
+
+			this.priority = json.getInt("priority");
+
+			this.sentTime = fmt.parseDateTime(json.getString("sentTime"));
+
+			this.messageContent = this.messageContent.fromJson(
+					json.getJSONObject("messageContent"));
+			
+
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		return this;
+
+	}
+
+
 }

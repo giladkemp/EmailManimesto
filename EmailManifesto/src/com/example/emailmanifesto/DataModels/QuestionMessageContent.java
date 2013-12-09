@@ -1,6 +1,11 @@
 package com.example.emailmanifesto.DataModels;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class QuestionMessageContent implements InterfaceMessageContent{
 	//Fields
@@ -55,6 +60,86 @@ public class QuestionMessageContent implements InterfaceMessageContent{
 		} else if (!questions.equals(other.questions))
 			return false;
 		return true;
+	}
+
+	@Override
+	public JSONObject toJson() {
+		// TODO Auto-generated method stub
+		JSONObject main = new JSONObject();
+		try {
+			main.put("actionNeeded", this.isActionNeeded());
+			
+			// each ques has name and list of responses 
+			/*
+			 
+			  
+			  {
+				"questions": [
+				{ "questionName":"John" , "responses": ["r1", "r2"]}, 
+				{ "questionName":"Anna" , "responses": ["r1", "r2"] }, 
+				{ "questionName":"Jim" , "responses": ["r1", "r2"] }
+				]
+				}
+			 * 
+			 * 
+			 * 
+			 */
+			
+			
+			JSONArray qArr = new JSONArray();
+			for (Question q : this.getQuestions()) {
+				JSONObject questionJSON = new JSONObject();
+				questionJSON.put("questionName", q.getQuestion());
+				// put responses in array
+				questionJSON.put("responses", new JSONArray(q.getResponses()));
+				
+				// put in main json
+				qArr.put(questionJSON);
+				
+			}
+			main.put("questions", qArr);
+			
+			
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		return main;
+	}
+
+	@Override
+	public InterfaceMessageContent fromJson(JSONObject json) {
+		// TODO Auto-generated method stub
+		try {
+			this.actionNeeded = json.getBoolean("actionNeeded");
+			
+			//for e/ ques, get question
+			JSONArray qArr = json.getJSONArray("questions");
+			this.questions.clear();
+			// inside qArr is json obj
+			for (int i=0; i < qArr.length(); i++) {
+				JSONObject q = qArr.getJSONObject(i);
+				String questionName = q.getString("questionName");
+				
+				// for e response, put in list
+				JSONArray respArr = q.getJSONArray("responses");
+				ArrayList<String> newResponses = new ArrayList<String>();
+				for (int j = 0; j < respArr.length(); j++) {
+					String resp = (String) respArr.get(j);
+					newResponses.add(resp);
+				}
+				Question newQues = new Question(questionName, newResponses);
+				this.questions.add(newQues);
+			}
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		
+		return this;
 	}
 	
 	

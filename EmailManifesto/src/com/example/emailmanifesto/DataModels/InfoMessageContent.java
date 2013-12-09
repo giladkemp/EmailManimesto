@@ -2,6 +2,10 @@ package com.example.emailmanifesto.DataModels;
 
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class InfoMessageContent implements InterfaceMessageContent {
 	private boolean responseRequested;
 	private List<Object> attachedContent;
@@ -70,6 +74,61 @@ public class InfoMessageContent implements InterfaceMessageContent {
 		} else if (!type.equals(other.type))
 			return false;
 		return true;
+	}
+
+
+	@Override
+	public JSONObject toJson() {
+		// TODO Auto-generated method stub
+		// convert InfoMessage into json format
+		// response req is boolean
+		// attachedContent is probably toString of object
+		// type is string
+		
+		JSONObject main = new JSONObject();
+		try {
+			main.put("type", this.getType());
+			main.put("responseRequested", this.responseRequested);
+			
+			// toStrings of each object
+			JSONArray arr = new JSONArray();
+			for (Object content : this.getAttachedContent()) {
+				arr.put(content);
+			}
+			main.put("attachedContent", arr);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		
+		return main;
+	}
+
+
+	@Override
+	public InterfaceMessageContent fromJson(JSONObject json) {
+		// TODO Auto-generated method stub
+		try {
+			this.type = json.getString("type");
+			this.responseRequested = json.getBoolean("responseRequested");
+			// get list of attached content
+			this.attachedContent.clear();
+			JSONArray contentArr = json.getJSONArray("attachedContent");
+			for (int i = 0; i < contentArr.length(); i++) {
+				Object content = contentArr.get(i);
+				this.attachedContent.add(content);
+			}
+			
+			
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		
+		return this;
 	}
 	
 	
