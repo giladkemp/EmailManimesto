@@ -243,14 +243,16 @@ public class GmailManager implements InterfaceEmailManager {
 			SentEmailCallback callback) {
 		SendGmailEmailTask emailTask = new SendGmailEmailTask(callback);
 		emailTask.execute(new String[] { subject, body, mAccount.name,
-				recipients });
+				recipients, null });
 	}
-	
+
 	@Override
 	public void sendEmailWithJsonAttachmentAsync(String subject, String body,
 			String recipients, String jsonAttachment, SentEmailCallback callback) {
-		// TODO Auto-generated method stub
-		
+
+		SendGmailEmailTask emailTask = new SendGmailEmailTask(callback);
+		emailTask.execute(new String[] { subject, body, mAccount.name,
+				recipients, jsonAttachment });
 	}
 
 	private class SendGmailEmailTask extends AsyncTask<String, Void, Boolean> {
@@ -285,11 +287,19 @@ public class GmailManager implements InterfaceEmailManager {
 
 			boolean success = false;
 			try {
-				GmailSMTPClient.instance.sendMail(params[0], params[1],
-						params[2], mToken, params[3]);
+				//check if an attachment parameter was provided
+				if (params[4] == null) {
+					GmailSMTPClient.instance.sendMail(params[0], params[1],
+							params[2], mToken, params[3]);
+				} else {
+					GmailSMTPClient.instance.sendMailWithAttachment(params[0],
+							params[1], params[2], mToken, params[3], params[4]);
+				}
+
 				success = true;
 			} catch (Exception ex) {
 				Log.e(TAG, "Error sending email", ex);
+				return false;
 			}
 
 			return success;
@@ -304,6 +314,5 @@ public class GmailManager implements InterfaceEmailManager {
 			}
 		}
 	}
-
 
 }
