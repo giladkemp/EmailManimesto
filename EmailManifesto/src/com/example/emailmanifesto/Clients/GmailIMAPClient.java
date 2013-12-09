@@ -56,7 +56,7 @@ public class GmailIMAPClient {
 			super("Google OAuth2 Provider", 1.0,
 					"Provides the XOAUTH2 SASL Mechanism");
 			put("SaslClientFactory.XOAUTH2",
-					"com.example.emailmanifesto.OAuth2SaslClientFactory");
+					"com.example.emailmanifesto.Clients.OAuth2SaslClientFactory");
 		}
 	}
 }

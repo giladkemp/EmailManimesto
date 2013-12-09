@@ -26,6 +26,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.example.emailmanifesto.TestActivity"
+            android:label="Email Manifesto Test">
+            <!-- Uncomment this and comment out InboxActivity to run test-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+             -->
+        </activity>
         <activity
             android:name="com.example.emailmanifesto.ComposeActivity"
             android:label="@string/title_activity_compose" >

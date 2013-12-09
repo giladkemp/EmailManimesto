@@ -1,6 +1,5 @@
 package com.example.emailmanifesto.DataModels;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -144,7 +143,6 @@ public class MeetingMessageContent implements InterfaceMessageContent {
 
 	@Override
 	public JSONObject toJson() {
-		// TODO Auto-generated method stub
 		
 		JSONObject main = new JSONObject();
 		try {
@@ -171,7 +169,6 @@ public class MeetingMessageContent implements InterfaceMessageContent {
 //			main.put("intervalCount", this.getAvailableIntervals().size());
 			
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}
@@ -185,7 +182,6 @@ public class MeetingMessageContent implements InterfaceMessageContent {
 
 	@Override
 	public InterfaceMessageContent fromJson(JSONObject json) {
-		// TODO Auto-generated method stub
 		try {
 			this.title = json.getString("title");
 			this.location = json.getString("location");
@@ -210,7 +206,6 @@ public class MeetingMessageContent implements InterfaceMessageContent {
 			
 			
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}

@@ -1,15 +1,17 @@
 package com.example.emailmanifesto.DataModels;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.joda.time.Interval;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
-import org.json.*;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class EmailMessage {
+	public static final String ATTACHMENT_FILENAME = "manifesto_manifest.json"; 
+	
 	private String subject;
 	private String from;
 	private List<String> to;
@@ -181,13 +183,8 @@ public class EmailMessage {
 //	
 	
 	
-	//TODO: add toJson and fromJson functionality
 	public JSONObject toJson() {
 	    
-
-		
-		
-		JSONObject overall = new JSONObject();
 		JSONObject main = new JSONObject();
 		// first, create json for each smaller items
 		try {
@@ -210,7 +207,6 @@ public class EmailMessage {
 			main.put("messageContent", this.getMessageContent().toJson());
 			
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}
@@ -262,7 +258,6 @@ public class EmailMessage {
 
 
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}
