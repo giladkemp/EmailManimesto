@@ -148,8 +148,11 @@ public class GmailManager implements InterfaceEmailManager {
 			IMAPFolder imapFolder = (IMAPFolder) imapStore.getFolder("Inbox");
 			imapFolder.open(Folder.READ_ONLY);
 
+			Log.e(TAG, "Settings UID is " + minUID);
+			Log.e(TAG, "IMAP last UID is " + imapFolder.getUIDNext());
+			
 			//if true then no new emails
-			if(minUID >= IMAPFolder.LASTUID){
+			if(minUID - 1 >= imapFolder.getUIDNext()){
 				return emailList;
 			}
 			
@@ -161,7 +164,7 @@ public class GmailManager implements InterfaceEmailManager {
 			SharedPreferences settings = context.getSharedPreferences(
 					InboxActivity.PREFS_NAME, 0);
 			SharedPreferences.Editor editor = settings.edit();
-			editor.putLong(InboxActivity.UID, IMAPFolder.LASTUID);
+			editor.putLong(InboxActivity.UID, imapFolder.getUIDNext() - 1);
 			editor.commit();
 
 			SQLiteEmail email;

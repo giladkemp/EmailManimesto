@@ -1,10 +1,5 @@
 package com.example.emailmanifesto;
 
-import java.util.ArrayList;
-
-import org.joda.time.DateTime;
-import org.json.JSONException;
-
 import android.accounts.Account;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -12,6 +7,7 @@ import android.app.ActionBar;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -22,8 +18,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.emailmanifesto.Adapters.EmailListAdapter;
-import com.example.emailmanifesto.DataModels.EmailMessage;
-import com.example.emailmanifesto.DataModels.InfoMessageContent;
 import com.example.emailmanifesto.Managers.GmailManager;
 import com.example.emailmanifesto.Managers.InterfaceEmailManager;
 import com.example.emailmanifesto.Managers.SQLiteInboxManager;
@@ -49,7 +43,6 @@ public class InboxActivity extends ListActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_inbox);
-		
 		
 		//UI CREATION
 
