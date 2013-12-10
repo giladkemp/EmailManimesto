@@ -92,7 +92,7 @@ public class GmailSMTPClient {
 						EmailMessage.ATTACHMENT_FILENAME, "");
 				
 				//Create the file and close the writer
-				PrintWriter writer = new PrintWriter(attachmentFile);
+				PrintWriter writer = new PrintWriter(attachment);
 				writer.print(attachmentFile);
 				writer.close();
 				
