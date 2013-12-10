@@ -147,9 +147,6 @@ public class GmailManager implements InterfaceEmailManager {
 					mAccount.name, mToken, false);
 			IMAPFolder imapFolder = (IMAPFolder) imapStore.getFolder("Inbox");
 			imapFolder.open(Folder.READ_ONLY);
-
-			Log.e(TAG, "Settings UID is " + minUID);
-			Log.e(TAG, "IMAP last UID is " + imapFolder.getUIDNext());
 			
 			//if true then no new emails
 			if(minUID - 1 >= imapFolder.getUIDNext()){
