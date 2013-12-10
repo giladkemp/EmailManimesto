@@ -1,5 +1,6 @@
 package com.example.emailmanifesto.DataModels;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -9,26 +10,30 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 public class EmailMessage {
 	public static final String ATTACHMENT_FILENAME = "manifesto_manifest.json"; 
 	
 	private String subject;
 	private String from;
-	private List<String> to;
-	private List<String> cc;
-	private List<String> bcc;
+	private List<String> to = new ArrayList<String>();
+	private List<String> cc = new ArrayList<String>();
+	private List<String> bcc = new ArrayList<String>();
 	//lowest priority is 1 (blue), highest is 5 (red)
 	private int priority;
 	private DateTime sentTime;
 	private InterfaceMessageContent messageContent;
 	
-	
 	private static DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
+	
+	public EmailMessage(){
+		
+	}
 	
 	public EmailMessage(String subject, String from, List<String> to,
 			List<String> cc, List<String> bcc, int priority, DateTime sentTime,
 			InterfaceMessageContent messageContent) {
-		super();
 		this.subject = subject;
 		this.from = from;
 		this.to = to;
@@ -272,6 +277,5 @@ public class EmailMessage {
 		return this;
 
 	}
-
 
 }

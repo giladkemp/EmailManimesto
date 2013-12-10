@@ -30,7 +30,7 @@ public class TestActivity extends Activity{
 		managerInitialization();
 		
 		//This code will send email: requires OnEmailSent below
-		mEmailManager.sendEmailAsync("Test Email", "This is a test email", "scapegoat13_14@yahoo.com", new OnEmailSent());
+		mEmailManager.sendEmailWithJsonAttachmentAsync("Test Email", "This is a test email", "kuba1000@gmail.com", "{}", new OnEmailSent());
 		
 		Toast.makeText(this, "Getting new emails", Toast.LENGTH_LONG).show();
 		

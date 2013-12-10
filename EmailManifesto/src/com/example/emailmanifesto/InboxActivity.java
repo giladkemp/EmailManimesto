@@ -1,5 +1,11 @@
 package com.example.emailmanifesto;
 
+import java.util.ArrayList;
+
+import org.joda.time.DateTime;
+import org.json.JSONException;
+
+import android.accounts.Account;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
@@ -7,19 +13,30 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.emailmanifesto.Adapters.EmailListAdapter;
+import com.example.emailmanifesto.DataModels.EmailMessage;
+import com.example.emailmanifesto.DataModels.InfoMessageContent;
+import com.example.emailmanifesto.Managers.GmailManager;
+import com.example.emailmanifesto.Managers.InterfaceEmailManager;
+import com.example.emailmanifesto.Managers.SQLiteInboxManager;
 
 public class InboxActivity extends ListActivity implements
 		ActionBar.OnNavigationListener {
 
+	public static final String TAG = "InboxActivity";
 	public static final String PREFS_NAME = "EmailManifestoPreferences";
 	public static final String UID = "MAX_UID";
 
+	private InterfaceEmailManager mEmailManager;
+	private SQLiteInboxManager mInboxManager;
 	
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
@@ -32,6 +49,9 @@ public class InboxActivity extends ListActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_inbox);
+		
+		
+		//UI CREATION
 
 		// Set up the action bar to show a dropdown list.
 		final ActionBar actionBar = getActionBar();
@@ -45,11 +65,48 @@ public class InboxActivity extends ListActivity implements
 			actionBar.setDisplayUseLogoEnabled(false);
 		}
 		
-		Cursor c = null;
+		//DATA INITIALIZATION
+		managerInitialization();
 		
-		//Set list adapter
-		setListAdapter(new EmailListAdapter(this, R.layout.message_item, c, 0));
+		Toast.makeText(this, "Getting new emails", Toast.LENGTH_LONG).show();
+		
+		//operation to get new emails and load them into the inbox database
+		new UpdateInboxOperation().execute(new Void[0]);
 
+	}
+	
+	private void managerInitialization(){
+		//set email account to use
+		//all options should be presented to user unless there's only one
+		Account emailAccount = GmailManager.getDeviceEmailAddresses(this)[0];
+		
+		//create instance of emailManager
+		mEmailManager = GmailManager.CreateGmailManager(emailAccount, this);
+		
+		//set up inboxManager
+		mInboxManager = new SQLiteInboxManager(this);
+		
+	}
+	
+	private class UpdateInboxOperation extends AsyncTask<Void, Void, Void>{
+		
+		@Override
+		protected Void doInBackground(Void... params) {
+			InboxUpdateOperation.updateInboxOperation(InboxActivity.this, mEmailManager, mInboxManager);
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			Toast.makeText(InboxActivity.this, "Update operation complete!", Toast.LENGTH_LONG).show();
+			
+			Cursor c = mInboxManager.getCursorToEmails();;
+			
+			//Set list adapter
+			setListAdapter(new EmailListAdapter(InboxActivity.this, R.layout.message_item, c, 0));
+	     }
+
+		
 	}
 
 	@Override
@@ -105,7 +162,7 @@ public class InboxActivity extends ListActivity implements
 
 	@Override
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-		// TODO Auto-generated method stub
+		// TODO: open the message in reading window
 		return false;
 	}
 

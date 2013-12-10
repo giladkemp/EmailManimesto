@@ -61,7 +61,8 @@ public class SQLiteInboxManager {
 	public Cursor getCursorToEmails(){
 		openForWrite();
 		
-		Cursor emailCursor = database.rawQuery("SELECT " + SQLiteInbox.INBOX_COLUMN_UID
+		Cursor emailCursor = database.rawQuery("SELECT " + SQLiteInbox.INBOX_COLUMN_ID
+				+ ", " + SQLiteInbox.INBOX_COLUMN_UID
 				+ ", " + SQLiteInbox.INBOX_COLUMN_ATTACHMENT
 				+ " FROM " + SQLiteInbox.TABLE_INBOX
 				+ " ORDER BY " + SQLiteInbox.INBOX_COLUMN_UID + " DESC"

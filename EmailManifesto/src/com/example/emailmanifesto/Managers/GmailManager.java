@@ -148,6 +148,11 @@ public class GmailManager implements InterfaceEmailManager {
 			IMAPFolder imapFolder = (IMAPFolder) imapStore.getFolder("Inbox");
 			imapFolder.open(Folder.READ_ONLY);
 
+			//if true then no new emails
+			if(minUID >= IMAPFolder.LASTUID){
+				return emailList;
+			}
+			
 			// get all messages since last one
 			Message[] messages = imapFolder.getMessagesByUID(minUID + 1,
 					IMAPFolder.LASTUID);

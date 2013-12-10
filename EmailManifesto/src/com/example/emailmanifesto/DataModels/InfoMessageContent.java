@@ -1,5 +1,6 @@
 package com.example.emailmanifesto.DataModels;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -8,7 +9,7 @@ import org.json.JSONObject;
 
 public class InfoMessageContent implements InterfaceMessageContent {
 	private boolean responseRequested;
-	private List<Object> attachedContent;
+	private List<Object> attachedContent = new ArrayList<Object>();
 	private String type;
 	
 	//constructors
