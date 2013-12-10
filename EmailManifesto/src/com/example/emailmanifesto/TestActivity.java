@@ -2,6 +2,7 @@ package com.example.emailmanifesto;
 
 import android.accounts.Account;
 import android.app.Activity;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -29,7 +30,7 @@ public class TestActivity extends Activity{
 		managerInitialization();
 		
 		//This code will send email: requires OnEmailSent below
-		mEmailManager.sendEmailAsync("Test Email", "This is a test email", "kuba1000@gmail.com", new OnEmailSent());
+		mEmailManager.sendEmailAsync("Test Email", "This is a test email", "scapegoat13_14@yahoo.com", new OnEmailSent());
 		
 		Toast.makeText(this, "Getting new emails", Toast.LENGTH_LONG).show();
 		
@@ -38,7 +39,7 @@ public class TestActivity extends Activity{
 		updateOperation.execute(new Void[0]);
 		
 		// run this code to get cursor to get emails in descending order by UID
-//		Cursor cursor = mInboxManager.getCursorToEmails();
+		Cursor cursor = mInboxManager.getCursorToEmails();
 		
 	}
 	
