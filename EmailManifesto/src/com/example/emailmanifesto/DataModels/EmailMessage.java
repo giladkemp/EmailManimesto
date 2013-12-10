@@ -216,7 +216,15 @@ public class EmailMessage {
 		return main;
 	}
 	
-
+	/**
+	 * Before using this method, two conditions must be met:
+	 * 1) Attached JSON must be already be parsed into a JSONObject
+	 * 2) An EmailMessage object with corresponding MessageContent instantiated with 
+	 *    proper parameters, including list arrays. 
+	 *  
+	 * @param json
+	 * @return EmailMessage
+	 */
 	public EmailMessage fromJson(JSONObject json) {
 		// set current object fields to values in json
 		try {
