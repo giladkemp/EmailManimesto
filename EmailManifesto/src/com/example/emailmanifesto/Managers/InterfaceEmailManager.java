@@ -2,6 +2,8 @@ package com.example.emailmanifesto.Managers;
 
 import java.util.List;
 
+import android.content.Context;
+
 import com.example.emailmanifesto.CallBacks.SentEmailCallback;
 import com.example.emailmanifesto.DataModels.SQLiteEmail;
 
@@ -41,5 +43,5 @@ public interface InterfaceEmailManager {
 	 * @return
 	 * 		list of emails ready to be placed into database
 	 */
-	public List<SQLiteEmail> getEmails(long minUID);
+	public List<SQLiteEmail> getEmails(long minUID, Context context);
 }

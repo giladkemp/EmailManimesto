@@ -2,6 +2,9 @@ package com.example.emailmanifesto;
 
 import java.util.List;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import com.example.emailmanifesto.DataModels.SQLiteEmail;
 import com.example.emailmanifesto.Managers.InterfaceEmailManager;
 import com.example.emailmanifesto.Managers.SQLiteInboxManager;
@@ -17,12 +20,13 @@ public class InboxUpdateOperation {
 	 * @param inboxManager
 	 * 		Initialized instance of the SQLite inbox manager
 	 */
-	public static void updateInboxOperation(InterfaceEmailManager emailManager, SQLiteInboxManager inboxManager){
+	public static void updateInboxOperation(Context context, InterfaceEmailManager emailManager, SQLiteInboxManager inboxManager){
 		//open inbox database for reads
 		inboxManager.openForRead();
 		
 		//retrieve highest UID from stored inbox
-		long minUID = inboxManager.getMaximumUIDFromInbox();
+		SharedPreferences settings = context.getSharedPreferences(InboxActivity.PREFS_NAME, 0);
+		long minUID = settings.getLong(InboxActivity.UID, 0);
 		
 		//close database to then open up for writes
 		inboxManager.close();
@@ -31,7 +35,7 @@ public class InboxUpdateOperation {
 		inboxManager.openForWrite();
 		
 		//retrieve messages with greater UID from IMAP connection
-		List<SQLiteEmail> emailList = emailManager.getEmails(minUID);
+		List<SQLiteEmail> emailList = emailManager.getEmails(minUID, context);
 		
 		//put emails into inbox
 		inboxManager.insertEmails(emailList);

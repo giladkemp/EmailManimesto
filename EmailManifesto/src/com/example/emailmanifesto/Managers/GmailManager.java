@@ -17,10 +17,12 @@ import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.emailmanifesto.InboxActivity;
 import com.example.emailmanifesto.CallBacks.SentEmailCallback;
 import com.example.emailmanifesto.Clients.GmailIMAPClient;
 import com.example.emailmanifesto.Clients.GmailSMTPClient;
@@ -115,9 +117,9 @@ public class GmailManager implements InterfaceEmailManager {
 		mgr.getAuthToken(account, GMAIL_OAUTH2_SCOPE, null, activity, callback,
 				null);
 	}
-
+	
 	@Override
-	public List<SQLiteEmail> getEmails(long minUID) {
+	public List<SQLiteEmail> getEmails(long minUID, Context context) {
 
 		ArrayList<SQLiteEmail> emailList = new ArrayList<SQLiteEmail>();
 
@@ -149,6 +151,13 @@ public class GmailManager implements InterfaceEmailManager {
 			// get all messages since last one
 			Message[] messages = imapFolder.getMessagesByUID(minUID + 1,
 					IMAPFolder.LASTUID);
+			
+			// Set highest UID processed
+			SharedPreferences settings = context.getSharedPreferences(
+					InboxActivity.PREFS_NAME, 0);
+			SharedPreferences.Editor editor = settings.edit();
+			editor.putLong(InboxActivity.UID, IMAPFolder.LASTUID);
+			editor.commit();
 
 			SQLiteEmail email;
 			long uid;

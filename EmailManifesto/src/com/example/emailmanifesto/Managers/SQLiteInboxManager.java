@@ -71,26 +71,28 @@ public class SQLiteInboxManager {
 		return emailCursor;
 	}
 
-	public long getMaximumUIDFromInbox() {
-		long uid = 0;
-
-		openForRead();
-
-		// get maximum UID
-		Cursor uidCursor = database.rawQuery("SELECT MAX("
-				+ SQLiteInbox.INBOX_COLUMN_UID + ") FROM "
-				+ SQLiteInbox.TABLE_INBOX, null);
-		// set cursor to first record
-		boolean areResultsReturned = uidCursor.moveToFirst();
-		if (areResultsReturned) {
-			// if no results, return zero
-			uid = uidCursor.getLong(0);
-		}
-		// close the cursor
-		uidCursor.close();
-
-		return uid;
-	}
+// Retain for legacy purposes
+	
+//	public long getMaximumUIDFromInbox() {
+//		long uid = 0;
+//
+//		openForRead();
+//
+//		// get maximum UID
+//		Cursor uidCursor = database.rawQuery("SELECT MAX("
+//				+ SQLiteInbox.INBOX_COLUMN_UID + ") FROM "
+//				+ SQLiteInbox.TABLE_INBOX, null);
+//		// set cursor to first record
+//		boolean areResultsReturned = uidCursor.moveToFirst();
+//		if (areResultsReturned) {
+//			// if no results, return zero
+//			uid = uidCursor.getLong(0);
+//		}
+//		// close the cursor
+//		uidCursor.close();
+//
+//		return uid;
+//	}
 
 	public void close() {
 		database = null;

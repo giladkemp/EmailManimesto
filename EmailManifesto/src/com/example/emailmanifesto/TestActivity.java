@@ -60,7 +60,7 @@ public class TestActivity extends Activity{
 		
 		@Override
 		protected Void doInBackground(Void... params) {
-			InboxUpdateOperation.updateInboxOperation(mEmailManager, mInboxManager);
+			InboxUpdateOperation.updateInboxOperation(TestActivity.this, mEmailManager, mInboxManager);
 			return null;
 		}
 		

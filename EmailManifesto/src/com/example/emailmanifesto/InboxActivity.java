@@ -3,25 +3,24 @@ package com.example.emailmanifesto;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
-import android.os.Bundle;
+import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Build;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.NavUtils;
-import android.view.Gravity;
-import android.view.LayoutInflater;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
 
-public class InboxActivity extends FragmentActivity implements
+import com.example.emailmanifesto.Adapters.EmailListAdapter;
+
+public class InboxActivity extends ListActivity implements
 		ActionBar.OnNavigationListener {
-//Hi sam
+
+	public static final String PREFS_NAME = "EmailManifestoPreferences";
+	public static final String UID = "MAX_UID";
+
+	
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
 	 * current dropdown position.
@@ -45,6 +44,11 @@ public class InboxActivity extends FragmentActivity implements
 		} else {
 			actionBar.setDisplayUseLogoEnabled(false);
 		}
+		
+		Cursor c = null;
+		
+		//Set list adapter
+		setListAdapter(new EmailListAdapter(this, R.layout.message_item, c, 0));
 
 	}
 
@@ -100,43 +104,10 @@ public class InboxActivity extends FragmentActivity implements
 	}
 
 	@Override
-	public boolean onNavigationItemSelected(int position, long id) {
-		// When the given dropdown item is selected, show its contents in the
-		// container view.
-		Fragment fragment = new DummySectionFragment();
-		Bundle args = new Bundle();
-		args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
-		fragment.setArguments(args);
-		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.container, fragment).commit();
-		return true;
+	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
-	/**
-	 * A dummy fragment representing a section of the app, but that simply
-	 * displays dummy text.
-	 */
-	public static class DummySectionFragment extends Fragment {
-		/**
-		 * The fragment argument representing the section number for this
-		 * fragment.
-		 */
-		public static final String ARG_SECTION_NUMBER = "section_number";
-
-		public DummySectionFragment() {
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_inbox_dummy,
-					container, false);
-			TextView dummyTextView = (TextView) rootView
-					.findViewById(R.id.section_label);
-			dummyTextView.setText(Integer.toString(getArguments().getInt(
-					ARG_SECTION_NUMBER)));
-			return rootView;
-		}
-	}
-
+	
 }
