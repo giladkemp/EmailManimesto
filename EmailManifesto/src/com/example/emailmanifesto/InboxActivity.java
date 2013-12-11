@@ -132,6 +132,7 @@ public class InboxActivity extends ListActivity implements
 	        case R.id.action_compose:
 	            //Compose action started
 	        	Intent composeActivityIntent = new Intent(this, ComposeActivity.class);
+	        	composeActivityIntent.putExtra("EmailManager", mEmailManager);
 	        	this.startActivity(composeActivityIntent);
 	            return true;
 	        default:
