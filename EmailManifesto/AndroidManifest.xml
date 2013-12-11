@@ -25,7 +25,9 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter> -->
+            </intent-filter>
+            
+             --> 
         </activity>
         <activity android:name="com.example.emailmanifesto.TestActivity"
             android:label="Email Manifesto Test">
@@ -41,7 +43,7 @@
         <activity
             android:name="com.example.emailmanifesto.ComposeActivity"
             android:label="@string/title_activity_compose" >
-            
+           
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
