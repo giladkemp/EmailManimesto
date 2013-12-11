@@ -27,7 +27,7 @@ public class InboxUpdateOperation {
 		
 		//retrieve highest UID from stored inbox
 		SharedPreferences settings = context.getSharedPreferences(InboxActivity.PREFS_NAME, 0);
-		long minUID = settings.getLong(InboxActivity.UID, 0);
+		long minUID = settings.getLong(InboxActivity.UID, 1);
 		
 		Log.d(TAG, "MY UID: "+ minUID);
 		
