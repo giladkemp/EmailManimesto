@@ -3,11 +3,12 @@ package com.example.emailmanifesto.Managers;
 import java.util.List;
 
 import android.content.Context;
+import android.os.Parcelable;
 
 import com.example.emailmanifesto.CallBacks.SentEmailCallback;
 import com.example.emailmanifesto.DataModels.SQLiteEmail;
 
-public interface InterfaceEmailManager {
+public interface InterfaceEmailManager extends Parcelable{
 	/**
 	 * 
 	 * @param subject

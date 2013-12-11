@@ -47,6 +47,7 @@ public class InboxActivity extends ListActivity implements
 		
 		//UI CREATION
 		
+//      //Use to reset the last UID retrieved for debugging
 //		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 //		SharedPreferences.Editor editor = settings.edit();
 //		editor.putLong(UID, 10000);

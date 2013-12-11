@@ -20,6 +20,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.example.emailmanifesto.InboxActivity;
@@ -42,6 +44,35 @@ public class GmailManager implements InterfaceEmailManager {
 
 	private Account mAccount;
 	private String mToken;
+
+	@Override
+	public int describeContents() {
+		return hashCode();
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {		
+		dest.writeString(mToken);
+		dest.writeParcelable(mAccount, PARCELABLE_WRITE_RETURN_VALUE);	
+	}
+	
+	public static final Parcelable.Creator<GmailManager> CREATOR = new Parcelable.Creator<GmailManager>() {
+
+		@Override
+		public GmailManager createFromParcel(Parcel source) {
+			return new GmailManager(source);
+		}
+
+		@Override
+		public GmailManager[] newArray(int size) {
+			return new GmailManager[size];
+		}
+	};
+	
+	private GmailManager(Parcel in){
+		mToken = in.readString();
+		mAccount = in.readParcelable(Account.class.getClassLoader());
+	}
 
 	private GmailManager(Account account) {
 		mAccount = account;
@@ -328,5 +359,36 @@ public class GmailManager implements InterfaceEmailManager {
 			}
 		}
 	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((mAccount == null) ? 0 : mAccount.hashCode());
+		result = prime * result + ((mToken == null) ? 0 : mToken.hashCode());
+		return result;
+	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		GmailManager other = (GmailManager) obj;
+		if (mAccount == null) {
+			if (other.mAccount != null)
+				return false;
+		} else if (!mAccount.equals(other.mAccount))
+			return false;
+		if (mToken == null) {
+			if (other.mToken != null)
+				return false;
+		} else if (!mToken.equals(other.mToken))
+			return false;
+		return true;
+	}
 }
