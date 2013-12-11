@@ -21,6 +21,7 @@ import com.example.emailmanifesto.Adapters.EmailListAdapter;
 import com.example.emailmanifesto.Managers.GmailManager;
 import com.example.emailmanifesto.Managers.InterfaceEmailManager;
 import com.example.emailmanifesto.Managers.SQLiteInboxManager;
+import com.example.emailmanifesto.SQLite.SQLiteInbox;
 
 public class InboxActivity extends ListActivity implements
 		ActionBar.OnNavigationListener {
@@ -45,6 +46,11 @@ public class InboxActivity extends ListActivity implements
 		setContentView(R.layout.activity_inbox);
 		
 		//UI CREATION
+		
+//		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+//		SharedPreferences.Editor editor = settings.edit();
+//		editor.putLong(UID, 10000);
+//		editor.commit();
 
 		// Set up the action bar to show a dropdown list.
 		final ActionBar actionBar = getActionBar();

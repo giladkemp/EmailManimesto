@@ -19,9 +19,11 @@ import com.example.emailmanifesto.SQLite.SQLiteInbox;
 public class EmailListAdapter extends ResourceCursorAdapter{
 	public static final String TAG = "EmailListAdapter";
 	
+	private int mLayout;
+	
 	public EmailListAdapter(Context context, int layout, Cursor c, int flags){
 		super(context, layout, c, flags);
-		
+		mLayout = layout;
 	}
 
     @Override  
@@ -30,7 +32,7 @@ public class EmailListAdapter extends ResourceCursorAdapter{
         LayoutInflater inflater = (LayoutInflater) context  
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);  
   
-        return inflater.inflate(R.layout.message_item, parent, false);  
+        return inflater.inflate(mLayout, parent, false);  
   
     }  
 	
@@ -67,6 +69,7 @@ public class EmailListAdapter extends ResourceCursorAdapter{
 		timeView.setText(message.getSentTime().toLocalTime().toString());
 		priorityView.setText("" + message.getPriority());
 		
+		Log.e(TAG, message.getFrom());
 		
 	}
 }

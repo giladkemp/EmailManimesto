@@ -149,19 +149,19 @@ public class GmailManager implements InterfaceEmailManager {
 			imapFolder.open(Folder.READ_ONLY);
 			
 			//if true then no new emails
-			if(minUID - 1 >= imapFolder.getUIDNext()){
+			if(minUID > imapFolder.getUIDNext()){
 				return emailList;
 			}
 			
 			// get all messages since last one
-			Message[] messages = imapFolder.getMessagesByUID(minUID + 1,
+			Message[] messages = imapFolder.getMessagesByUID(minUID,
 					IMAPFolder.LASTUID);
 			
 			// Set highest UID processed
 			SharedPreferences settings = context.getSharedPreferences(
 					InboxActivity.PREFS_NAME, 0);
 			SharedPreferences.Editor editor = settings.edit();
-			editor.putLong(InboxActivity.UID, imapFolder.getUIDNext() - 1);
+			editor.putLong(InboxActivity.UID, imapFolder.getUIDNext());
 			editor.commit();
 
 			SQLiteEmail email;
