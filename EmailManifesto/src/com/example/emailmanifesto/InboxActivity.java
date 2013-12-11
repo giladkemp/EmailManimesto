@@ -15,9 +15,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.emailmanifesto.Adapters.EmailListAdapter;
+import com.example.emailmanifesto.DataModels.EmailMessage;
 import com.example.emailmanifesto.Managers.GmailManager;
 import com.example.emailmanifesto.Managers.InterfaceEmailManager;
 import com.example.emailmanifesto.Managers.SQLiteInboxManager;
@@ -47,7 +52,6 @@ public class InboxActivity extends ListActivity implements
 		
 		//UI CREATION
 		
-//      //Use to reset the last UID retrieved for debugging
 //		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 //		SharedPreferences.Editor editor = settings.edit();
 //		editor.putLong(UID, 10000);
@@ -72,6 +76,18 @@ public class InboxActivity extends ListActivity implements
 		
 		//operation to get new emails and load them into the inbox database
 		new UpdateInboxOperation().execute(new Void[0]);
+		
+		//set up connection to MessageActivity
+		ListView lv = getListView();
+		lv.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,int position, long id){
+				EmailMessage message = (EmailMessage) parent.getItemAtPosition(position);
+				Intent messageIntent = new Intent(InboxActivity.this, MessageActivity.class);
+				messageIntent.putExtra("message", message.toJson().toString());
+				
+			}
+		});
 
 	}
 	
@@ -116,7 +132,6 @@ public class InboxActivity extends ListActivity implements
 	        case R.id.action_compose:
 	            //Compose action started
 	        	Intent composeActivityIntent = new Intent(this, ComposeActivity.class);
-	        	composeActivityIntent.putExtra("EmailManager", mEmailManager);
 	        	this.startActivity(composeActivityIntent);
 	            return true;
 	        default:

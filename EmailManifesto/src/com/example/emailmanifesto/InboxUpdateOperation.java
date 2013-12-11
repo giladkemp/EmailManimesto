@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.example.emailmanifesto.DataModels.SQLiteEmail;
 import com.example.emailmanifesto.Managers.InterfaceEmailManager;
@@ -27,6 +28,8 @@ public class InboxUpdateOperation {
 		//retrieve highest UID from stored inbox
 		SharedPreferences settings = context.getSharedPreferences(InboxActivity.PREFS_NAME, 0);
 		long minUID = settings.getLong(InboxActivity.UID, 0);
+		
+		Log.d(TAG, "MY UID: "+ minUID);
 		
 		//close database to then open up for writes
 		inboxManager.close();

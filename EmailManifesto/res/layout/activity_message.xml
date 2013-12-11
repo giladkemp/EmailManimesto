@@ -33,7 +33,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/FromView"
+            android:id="@+id/fromView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="From" />
@@ -41,9 +41,13 @@
         <!-- Content  View will go here
         I am envisioning a view whose layout i can change depending on the type
         of message. I have the layouts for each made -->
+        <View 
+            android:id="@+id/contentView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>    "
         
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/sendButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.14"
