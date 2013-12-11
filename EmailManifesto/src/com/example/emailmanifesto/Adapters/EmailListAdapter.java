@@ -46,11 +46,21 @@ public class EmailListAdapter extends ResourceCursorAdapter{
 		EmailMessage message = new EmailMessage();
 		
 		try {
-			message.fromJson(new JSONObject(jsonText));
+			message = EmailMessage.fromJson(new JSONObject(jsonText));
 		} catch (JSONException ex) {
 			Log.e(TAG, "Invalid JSON file", ex);
 		}
-		
+		if (message == null) {
+			
+			// if json rets w/ error
+			// TODO: Fix accordingly
+			return;
+			
+			
+			
+			
+			
+		}
 		fromView.setText(message.getFrom());
 		subjectView.setText(message.getSubject());
 		// TODO: Do something with previewView

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.joda.time.Interval;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.json.JSONArray;
@@ -187,7 +188,9 @@ public class EmailMessage {
 	
 	
 	public JSONObject toJson() {
-	    
+	    if (this.messageContent == null) {
+	    	return new JSONObject();
+	    }
 		JSONObject main = new JSONObject();
 		// first, create json for each smaller items
 		try {
@@ -206,6 +209,13 @@ public class EmailMessage {
 			main.put("sentTime", fmt.print((this.getSentTime())));
 			
 			
+			if (this.getMessageContent().getClass().equals(InfoMessageContent.class)) {
+				main.put("messageType", "Info");
+			} else if (this.getMessageContent().getClass().equals(QuestionMessageContent.class)) {
+				main.put("messageType", "Question");
+			} else {
+				main.put("messageType", "Meeting");
+			}
 			// message content
 			main.put("messageContent", this.getMessageContent().toJson());
 			
@@ -228,42 +238,60 @@ public class EmailMessage {
 	 * @param json
 	 * @return EmailMessage
 	 */
-	public EmailMessage fromJson(JSONObject json) {
+	public static EmailMessage fromJson(JSONObject json) {
+		EmailMessage ret = new EmailMessage();
 		// set current object fields to values in json
 		try {
-			this.subject = json.getString("subject");
-			this.from = json.getString("from");
+			ret.setSubject(json.getString("subject"));
+			ret.setFrom(json.getString("from"));
 
 			// get all to values
 			JSONArray toArr = json.getJSONArray("to");
-			this.to.clear();
+			ArrayList<String> to = new ArrayList<String>();
+			
 			for (int i = 0; i < toArr.length(); i++) {
-				String to = toArr.getString(i);
-				this.to.add(to);
+				String toStr = toArr.getString(i);
+				to.add(toStr);
 			}
-
+			ret.setTo(to);
 
 			// get all cc values
 			JSONArray ccArr = json.getJSONArray("cc");
-			this.cc.clear();
+			ArrayList<String> cc = new ArrayList<String>();
 			for (int i = 0; i < ccArr.length(); i++) {
-				String cc = ccArr.getString(i);
-				this.cc.add(cc);
+				String ccStr = ccArr.getString(i);
+				cc.add(ccStr);
 			}
-
+			ret.setCc(cc);
+			
 			// get all bcc values
 			JSONArray bccArr = json.getJSONArray("bcc");
-			this.bcc.clear();
+			ArrayList<String> bcc = new ArrayList<String>();
+
 			for (int i = 0; i < bccArr.length(); i++) {
-				String bcc = bccArr.getString(i);
-				this.bcc.add(bcc);
+				String bccStr = bccArr.getString(i);
+				bcc.add(bccStr);
 			}
+			ret.setBcc(bcc);
+			ret.setPriority( json.getInt("priority"));
 
-			this.priority = json.getInt("priority");
+			ret.setSentTime(fmt.parseDateTime(json.getString("sentTime")));
 
-			this.sentTime = fmt.parseDateTime(json.getString("sentTime"));
-
-			this.messageContent = this.messageContent.fromJson(
+			String type = json.getString("messageType");
+			if (type.equalsIgnoreCase("Info")) {
+				InfoMessageContent info = new InfoMessageContent(false, 
+						new ArrayList<Object>(), "");
+				ret.setMessageContent(info);
+			} else if (type.equalsIgnoreCase("Question")) {
+				QuestionMessageContent ques = new QuestionMessageContent(
+						false, new ArrayList<Question>());
+				ret.setMessageContent(ques);
+			} else {
+				MeetingMessageContent meet = new MeetingMessageContent
+						("", "", "", null, new ArrayList<Interval>());
+				ret.setMessageContent(meet);
+			}
+			ret.messageContent.fromJson(
 					json.getJSONObject("messageContent"));
 			
 
@@ -272,7 +300,7 @@ public class EmailMessage {
 			e.printStackTrace();
 			return null;
 		}
-		return this;
+		return ret;
 
 	}
 
