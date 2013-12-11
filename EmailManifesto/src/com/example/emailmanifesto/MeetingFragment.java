@@ -47,11 +47,6 @@ public class MeetingFragment extends Fragment{
 	    @Override
 	    public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
-
-	        
-	        
-	        // TODO: You need to set up time display, get the view from the fragment
-	        
 	        
 			// get the current time
 			final Calendar c = Calendar.getInstance();
@@ -77,8 +72,8 @@ public class MeetingFragment extends Fragment{
 	    }
 	    
 	    private void updateDisplay() {
-//			mTimeDisplay.setText(new StringBuilder().append(pad(mHour)).append(":")
-//					.append(pad(mMinute)));
+			mTimeDisplay.setText(new StringBuilder().append(pad(mHour)).append(":")
+					.append(pad(mMinute)));
 		}
 
 		private static String pad(int c) {
