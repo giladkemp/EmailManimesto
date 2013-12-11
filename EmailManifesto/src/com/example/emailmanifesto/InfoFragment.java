@@ -1,10 +1,12 @@
 package com.example.emailmanifesto;
 
 import java.util.ArrayList;
+
 import java.util.Arrays;
 
 import org.joda.time.DateTime;
 
+import com.example.emailmanifesto.CallBacks.SentEmailCallback;
 import com.example.emailmanifesto.DataModels.EmailMessage;
 import com.example.emailmanifesto.DataModels.InfoMessageContent;
 
@@ -22,74 +24,78 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
+
+
+
 public class InfoFragment extends Fragment{
-	
+
 	// references to buttons
 	EditText infoBox = null;
 	Spinner typeSpinner = null;
 	Button sendButton = null;
 	ToggleButton respToggle = null;
-	
-	
-	
-	
+
+
+
+
 	String type = "Text";
 	boolean response = false;
-	
-	
+
+
 	@Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-    }
-    
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+	}
 
-           
-        
-    }
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-    @Override
+
+
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		
 
-    	
-    	return inflater.inflate(R.layout.new_info_fragment, container, false);
-		
-		
+
+
+		return inflater.inflate(R.layout.new_info_fragment, container, false);
+
+
 	}
-    
-    @Override
-    public void onActivityCreated(Bundle savedState) {
-    	super.onActivityCreated(savedState);
 
-    	// TODO: set up references to buttons and other views here
-    	infoBox = (EditText)this.getView().findViewById(R.id.content_value);
+	@Override
+	public void onActivityCreated(Bundle savedState) {
+		super.onActivityCreated(savedState);
 
-    	infoBox.setText("");
+		// TODO: set up references to buttons and other views here
+		infoBox = (EditText)this.getView().findViewById(R.id.content_value);
 
-		
-    	// grab buttons and spinners
-    	sendButton = (Button)this.getView().findViewById(R.id.sendInfo);
-    	this.respToggle = (ToggleButton)this.getView().findViewById(R.id.toggleInfo);
-    	
-    	// spinners
-    	// type of info message
-    	Spinner typeSpinner = (Spinner)this.getView().findViewById(R.id.spinner);
-    	// Create an ArrayAdapter using the string array and a default spinner layout
-    	ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-    			this.getActivity().getApplicationContext(),
-    	        R.array.type_array, android.R.layout.simple_spinner_item);
-    	
-    	// Specify the layout to use when the list of choices appears
-    	adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    	// Apply the adapter to the spinner
-    	typeSpinner.setAdapter(adapter);
-    	typeSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+		infoBox.setText("");
+
+
+		// grab buttons and spinners
+		sendButton = (Button)this.getView().findViewById(R.id.sendInfo);
+		this.respToggle = (ToggleButton)this.getView().findViewById(R.id.toggleInfo);
+
+		// spinners
+		// type of info message
+		Spinner typeSpinner = (Spinner)this.getView().findViewById(R.id.spinner);
+		// Create an ArrayAdapter using the string array and a default spinner layout
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+				this.getActivity().getApplicationContext(),
+				R.array.type_array, android.R.layout.simple_spinner_item);
+
+		// Specify the layout to use when the list of choices appears
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		// Apply the adapter to the spinner
+		typeSpinner.setAdapter(adapter);
+		typeSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view,
@@ -101,33 +107,33 @@ public class InfoFragment extends Fragment{
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}
-    		
-    	});
-    	
-    	
-		
+
+		});
+
+
+
 	}
-    
-    
-    OnClickListener sendListener = new OnClickListener() {
+
+
+	OnClickListener sendListener = new OnClickListener() {
 
 		@Override
 		public void onClick(View arg0) {
 			// grab all values
-//			typeSpinner.
-			
+			//			typeSpinner.
+
 			String contentText = infoBox.getText().toString();
 			// type should already be set
-			
+
 			String test = (String) respToggle.getText();
 			if (test.equals("Yes")) {
 				response = true;
 			} else {
 				response = false;
 			}
-			
+
 			// create email object
 			EmailMessage email = new EmailMessage();
 			// TODO: set email subject, to, cc, bcc, sentTime AND PRIORITY 
@@ -142,37 +148,67 @@ public class InfoFragment extends Fragment{
 			InfoMessageContent info = new InfoMessageContent(response, 
 					new ArrayList<Object>(Arrays.asList(new String[]{contentText})), 
 					type);
-			
+
 			email.setMessageContent(info);
-			
-			
+
+
 			// TODO: Not yet completed. Not proper way...
-//			InboxActivity.this.getEmailManager().sendEmailAsync
-//			(subject, body, recipients, callback);
+			//			InboxActivity.this.getEmailManager().sendEmailAsync
+			//			(subject, body, recipients, callback);
+			InfoFragment.this.getActivity().getIntent();
+
+			// CSV format
+			ArrayList<String> allRecepients = new ArrayList<String>();
+			allRecepients.addAll(email.getTo());
+			allRecepients.addAll(email.getCc());
+			allRecepients.addAll(email.getBcc());
+			String csv = allRecepients.toString().replace("[", "").replace("]", "")
+					.replace(", ", ",");
+
+
+			((ComposeActivity)InfoFragment.this.getActivity()).
+			mEmailManager.sendEmailWithJsonAttachmentAsync
+			("Test subject", contentText, csv, email.toJson().toString(), new OnEmailSent());
+
+		}
+
+
+
+	};
+
+
+
+	@Override
+	public void onStart() {
+		super.onStart();
+
+
+		// set up onClickListener for send button
+		sendButton.setOnClickListener(sendListener);
+
+
+
+
+	}
+
+
+
+
+	private class OnEmailSent implements SentEmailCallback{
+
+		@Override
+		public void onSuccess() {
+			Toast.makeText(getActivity(), ("Successfully sent"), Toast.LENGTH_LONG).show();
 			
 		}
-    	
-    	
-    	
-    };
-    
-    
-    
-    @Override
-    public void onStart() {
-        super.onStart();
-        
-        
-        // set up onClickListener for send button
-        sendButton.setOnClickListener(sendListener);
-        
-        
-        
-        
-    }
-    
-    
-    
-    
+
+		@Override
+		public void onFailure() {
+			Toast.makeText(getActivity(), ("Email was not sent"), Toast.LENGTH_LONG).show();
+		}
+
+	}
+
+
 
 }

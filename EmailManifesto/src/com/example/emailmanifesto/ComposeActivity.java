@@ -1,5 +1,7 @@
 package com.example.emailmanifesto;
 
+import com.example.emailmanifesto.Managers.InterfaceEmailManager;
+
 import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.ActionBar;
@@ -8,7 +10,7 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 public class ComposeActivity extends Activity {
 
-	
+	InterfaceEmailManager mEmailManager = null;
 	
 	
 	private FragmentManager mFragmentManager;
@@ -25,6 +27,11 @@ public class ComposeActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.new_activity_compose);
 
+		
+		// grab intent that started this activity and get email manager
+		mEmailManager = this.getIntent().getParcelableExtra("EmailManager");
+		
+		
 		container_id = (R.id.fragment_container);
 		
 		final ActionBar actionBar = getActionBar();
