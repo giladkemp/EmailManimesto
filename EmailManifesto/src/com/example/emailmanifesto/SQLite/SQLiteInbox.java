@@ -14,10 +14,12 @@ public class SQLiteInbox extends SQLiteOpenHelper {
 	private static final String DATABASE_NAME = "manifesto_inbox.db";
 	private static final int DATABASE_VERSION = 1;
 
-	private static final String DATABASE_CREATE = "CREATE TABLE " + TABLE_INBOX
+	private static final String DATABASE_CREATE = 
+			"CREATE TABLE " + TABLE_INBOX
 			+ "(" + INBOX_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
 			+ INBOX_COLUMN_UID + " INTEGER," + INBOX_COLUMN_ATTACHMENT
-			+ " TEXT NOT NULL);";;
+			+ " TEXT NOT NULL, "  
+			+ "UNIQUE(" + INBOX_COLUMN_UID + ") ON CONFLICT IGNORE);";
 
 	public SQLiteInbox(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
