@@ -48,7 +48,7 @@ public class MessageInfoFragment extends Fragment{
     	super.onActivityCreated(savedState);
 
     	// TODO: set up references to buttons and other views here
-    	text = (EditText)this.getView().findViewById(R.id.content_value);
+    	//text = (EditText)this.getView().findViewById(R.id.content_value);
 
     	text.setText("");
 		

@@ -1,10 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/info_fragment_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dip"
-    android:id="@+id/info_fragment_layout" >
+    android:padding="10dip" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="13dp"
+        android:layout_weight="10"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="13dip"
+            android:text="Subject:" />
+
+        <EditText
+            android:id="@+id/info_subject"
+            android:layout_width="250dp"
+            android:layout_height="45dp"
+            android:layout_alignParentRight="true"
+            android:layout_weight="1"
+            android:background="#999999"
+            android:text=""
+            android:textColor="#000000"
+            android:textSize="14pt" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="13dp"
+        android:layout_weight="10"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="13dp"
+            android:text="To:" />
+
+        <EditText
+            android:id="@+id/info_to"
+            android:layout_width="250dp"
+            android:layout_height="45dp"
+            android:layout_alignParentRight="true"
+            android:layout_weight="1"
+            android:background="#999999"
+            android:text=""
+            android:textColor="#000000"
+            android:textSize="14pt" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="13dp"
+        android:layout_weight="10"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dip"
+            android:text="cc:" />
+
+        <EditText
+            android:id="@+id/info_cc"
+            android:layout_width="250dp"
+            android:layout_height="45dp"
+            android:layout_alignParentRight="true"
+            android:layout_weight="1"
+            android:background="#999999"
+            android:text=""
+            android:textColor="#000000"
+            android:textSize="14pt" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:layout_weight="10"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:padding="15dip"
+            android:text="Priority 1~5 (5 is the most urgent)" />
+
+        <Spinner
+            android:id="@+id/info_priority"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:padding="15dip"
+            android:textColor="#000000"
+            android:textSize="10sp" />
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,34 +111,33 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="15dip"
-            android:text="Choose type of the file"/>
+            android:text="Choose type of the file" />
 
         <Spinner
-            android:id="@+id/spinner"
+            android:id="@+id/type_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="5dp"
             android:padding="15dip"
+            android:textColor="#000000"
             android:textSize="10sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="50"
+        android:layout_height="60dp"
         android:orientation="vertical" >
 
         <EditText
-            android:id="@+id/content_value"
+            android:id="@+id/info_description"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="20"
+            android:layout_height="match_parent"
             android:background="#999999"
-            android:padding="15dp"
+            android:gravity="@null"
             android:text="text box"
             android:textColor="#000000"
-            android:textSize="10pt" />
+            android:textSize="14pt" />
     </LinearLayout>
 
     <LinearLayout
@@ -84,11 +178,11 @@
         <Button
             android:id="@+id/sendInfo"
             android:layout_width="150dp"
-            android:layout_weight="10"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="10dip"
+            android:layout_weight="10"
             android:text="Send" >
         </Button>
     </RelativeLayout>
