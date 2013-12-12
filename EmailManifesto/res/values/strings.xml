@@ -9,5 +9,8 @@
     <string name="title_activity_compose">ComposeActivity</string>
     <string name="title_activity_message">MessageActivity</string>
     <string name="hello_world">Hello world!</string>
+    <string name="from">From: </string>
+    <string name="priority">Priority: </string>
+    <string name="timestamp">Sent: </string>
 
 </resources>
