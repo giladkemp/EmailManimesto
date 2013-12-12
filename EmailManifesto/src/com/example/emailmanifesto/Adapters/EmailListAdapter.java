@@ -14,6 +14,9 @@ import android.widget.TextView;
 
 import com.example.emailmanifesto.R;
 import com.example.emailmanifesto.DataModels.EmailMessage;
+import com.example.emailmanifesto.DataModels.InfoMessageContent;
+import com.example.emailmanifesto.DataModels.MeetingMessageContent;
+import com.example.emailmanifesto.DataModels.QuestionMessageContent;
 import com.example.emailmanifesto.SQLite.SQLiteInbox;
 
 public class EmailListAdapter extends ResourceCursorAdapter{
@@ -65,18 +68,29 @@ public class EmailListAdapter extends ResourceCursorAdapter{
 		}
 		fromView.setText(context.getString(R.string.from) + message.getFrom());
 		subjectView.setText(message.getSubject());
-		// TODO: Do something with previewView
+		
+		//deal with preview
+		if(message.getMessageContent() instanceof InfoMessageContent){
+			InfoMessageContent cont = (InfoMessageContent)message.getMessageContent();
+			previewView.setText(context.getString(R.string.email_type_info) + cont.getType());
+		}
+		else if(message.getMessageContent() instanceof MeetingMessageContent){
+			previewView.setText(context.getString(R.string.email_type_meeting));
+		}
+		else if(message.getMessageContent() instanceof QuestionMessageContent){
+			previewView.setText(context.getString(R.string.email_type_question));
+		}
 		
 		
 		
 		timeView.setText(message.getSentTime().toLocalDateTime().toString("MMM' 'd' 'H':'m"));
 		priorityView.setText(context.getString(R.string.priority) + message.getPriority());
 		switch(message.getPriority()){
-			case 1:priorityView.setBackgroundColor(0x400000FF); break;
-			case 2:priorityView.setBackgroundColor(0x4000B000); break;
-			case 3:priorityView.setBackgroundColor(0x40FFFF00); break;
-			case 4:priorityView.setBackgroundColor(0x40FF8000); break;
-			case 5:priorityView.setBackgroundColor(0x40FF0000); break;
+			case 1:priorityView.setBackgroundColor(0x600000FF); break;
+			case 2:priorityView.setBackgroundColor(0x6000B000); break;
+			case 3:priorityView.setBackgroundColor(0x60FFFF00); break;
+			case 4:priorityView.setBackgroundColor(0x60FF8000); break;
+			case 5:priorityView.setBackgroundColor(0x60FF0000); break;
 		}
 		
 		Log.e(TAG, message.getFrom());
