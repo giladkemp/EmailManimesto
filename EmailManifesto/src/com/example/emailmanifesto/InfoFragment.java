@@ -128,7 +128,7 @@ public class InfoFragment extends Fragment{
 			// type should already be set
 
 			String test = (String) respToggle.getText();
-			if (test.equals("Yes")) {
+			if (test.trim().equalsIgnoreCase("Yes")) {
 				response = true;
 			} else {
 				response = false;

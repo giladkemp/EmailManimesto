@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -82,6 +83,9 @@ public class InboxActivity extends ListActivity implements
 		lv.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,int position, long id){
+				if (parent == null) {
+					return;
+				}
 				EmailMessage message = (EmailMessage) parent.getItemAtPosition(position);
 				Intent messageIntent = new Intent(InboxActivity.this, MessageActivity.class);
 				messageIntent.putExtra("message", message.toJson().toString());
@@ -106,8 +110,17 @@ public class InboxActivity extends ListActivity implements
 	
 	private class UpdateInboxOperation extends AsyncTask<Void, Void, Void>{
 		
+		ProgressDialog p = new ProgressDialog
+				(InboxActivity.this.getApplicationContext(), ProgressDialog.STYLE_SPINNER);
+		
 		@Override
 		protected Void doInBackground(Void... params) {
+			
+			
+			
+			
+			
+			
 			InboxUpdateOperation.updateInboxOperation(InboxActivity.this, mEmailManager, mInboxManager);
 			return null;
 		}
@@ -120,7 +133,11 @@ public class InboxActivity extends ListActivity implements
 			
 			//Set list adapter
 			setListAdapter(new EmailListAdapter(InboxActivity.this, R.layout.message_item, c, 0));
-	     }
+	     
+		
+			
+		
+		}
 
 		
 	}
