@@ -177,7 +177,7 @@ String subject, to, cc, description, question, responseText;
 			
 
 			m.sendEmailWithJsonAttachmentAsync(email.getSubject(),
-							description, csv, email.toJson().toString(),
+							"Question: " + q.getQuestion() + " Responses: " + q.getResponses(), csv, email.toJson().toString(),
 							new OnEmailSent());
 
 		}
