@@ -174,10 +174,24 @@ String subject, to, cc, description, question, responseText;
 			String csv = allRecepients.toString().replace("[", "")
 					.replace("]", "").replace(", ", ",");
 			
+			//Parse to plaintext
+			QuestionMessageContent content = info;
+			StringBuilder sb = new StringBuilder();
 			
+			sb.append("The sender was hoping you could answer the following questions:\n");
+			
+			for(Question qu : content.getQuestions()){
+				sb.append(qu.getQuestion()).append("\n");
+			}
+			
+			sb.append("\nThank you in advance!");
 
 			m.sendEmailWithJsonAttachmentAsync(email.getSubject(),
-							"Question: " + q.getQuestion() + " Responses: " + q.getResponses(), csv, email.toJson().toString(),
+							sb.toString(), csv, email.toJson().toString(),
+							new OnEmailSent());
+
+			m.sendEmailWithJsonAttachmentAsync(email.getSubject(),
+							sb.toString(), csv, email.toJson().toString(),
 							new OnEmailSent());
 
 		}

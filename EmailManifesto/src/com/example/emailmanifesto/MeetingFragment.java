@@ -12,6 +12,8 @@ import org.joda.time.Duration;
 import org.joda.time.Interval;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+import org.joda.time.format.PeriodFormatter;
+import org.joda.time.format.PeriodFormatterBuilder;
 
 import com.example.emailmanifesto.CallBacks.SentEmailCallback;
 import com.example.emailmanifesto.DataModels.EmailMessage;
@@ -280,6 +282,9 @@ public class MeetingFragment extends Fragment{
 			
 			// create email object
 			EmailMessage email = new EmailMessage();
+			
+			//parse 
+			
 			// TODO: set email subject, to, cc, bcc, sentTime AND PRIORITY
 			email.setSentTime(new DateTime());
 			email.setSubject(subjectText);
@@ -356,10 +361,35 @@ public class MeetingFragment extends Fragment{
 					.replace("]", "").replace(", ", ",");
 			
 			
+			//parse to plaintext
+			StringBuilder sb = new StringBuilder();
+			MeetingMessageContent content = meetingContent;
+		
+			//process duration
+			Duration duration = content.getDuration(); // in milliseconds
+			PeriodFormatter myFormatter = new PeriodFormatterBuilder()
+			     .appendHours()
+			     .appendSuffix(" hour(s) and ")
+			     .appendMinutes()
+			     .appendSuffix(" minute(s)")
+			     .toFormatter();
+			String formatted = myFormatter.print(duration.toPeriod());
+			
+			sb.append("The sender would like to meet with you regarding ")
+				.append(content.getTitle()).append(" at ").append(content.getLocation())
+				.append(" for a period of ").append(formatted).append(".\n")
+				.append("The sender is available during the following times:\n");
+			
+			for(Interval interval : content.getAvailableIntervals()){
+				sb.append(interval.getStart().toLocalDateTime().toString("MMMM' 'd', 'y' 'H':'m"))
+				.append(" to ").append(interval.getEnd().toLocalDateTime().toString("MMMM' 'd', 'y' 'H':'m"))
+				.append("\n");
+			}
+			
+			sb.append("\nYour timely response is requested.");
 			
 			m.sendEmailWithJsonAttachmentAsync(email.getSubject(),
-							descriptionText + 
-							"Meeting Date/Time:" + mStringDate + " " + mStringTime + " @ " + locationText
+							sb.toString()
 									, csv, email.toJson().toString(),
 							new OnEmailSent());
 

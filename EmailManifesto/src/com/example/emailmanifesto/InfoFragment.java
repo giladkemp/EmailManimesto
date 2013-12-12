@@ -206,10 +206,25 @@ public class InfoFragment extends Fragment {
 			String csv = allRecepients.toString().replace("[", "")
 					.replace("]", "").replace(", ", ",");
 			
+			//parse to plaintext
+			InfoMessageContent content = info;
+			StringBuilder sb = new StringBuilder();
+			
+			//parse information
+			if(content.getType().equals(InfoMessageContent.TYPE_TEXT)){
+				sb.append("The sender would like you to be aware of the following information:\n" );
+				for(Object text : content.getAttachedContent()){
+					String inform = (String)text;
+					sb.append(inform).append("\n");
+				}
+			}
+			
+			//parse response
+			sb.append("Your response is").append(content.isResponseRequested() ? "requested." : " not required.");
 			
 
 			m.sendEmailWithJsonAttachmentAsync(email.getSubject(),
-							description, csv, email.toJson().toString(),
+							sb.toString(), csv, email.toJson().toString(),
 							new OnEmailSent());
 
 		}
