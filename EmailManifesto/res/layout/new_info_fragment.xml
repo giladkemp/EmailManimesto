@@ -13,6 +13,7 @@
         android:orientation="horizontal" >
 
         <TextView
+            android:id="@+id/subjectTextBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="13dip"
@@ -22,12 +23,17 @@
             android:id="@+id/info_subject"
             android:layout_width="250dp"
             android:layout_height="45dp"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/subjectTextBox"
             android:layout_weight="1"
             android:background="#999999"
-            android:text=""
+            android:ems="10"
             android:textColor="#000000"
-            android:textSize="14pt" />
+            android:textSize="14pt" >
+
+            <requestFocus />
+        </EditText>
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -98,7 +104,7 @@
             android:layout_marginRight="5dp"
             android:padding="15dip"
             android:textColor="#000000"
-            android:textSize="10sp" />
+            android:textSize="12sp" />
     </RelativeLayout>
 
     <LinearLayout
