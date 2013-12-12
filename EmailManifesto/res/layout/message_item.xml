@@ -2,51 +2,54 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal" >
+    android:orientation="vertical" >
 
-    <LinearLayout
-        android:layout_width="75dp"
+    <RelativeLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/fromView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="From" />
+        android:orientation="horizontal" >
 
         <TextView
             android:id="@+id/subjectView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:text="Subject" />
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/previewView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.22"
-        android:text="Preview"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <LinearLayout
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:orientation="vertical" >
 
         <TextView
             android:id="@+id/timeView"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:text="Timestamp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/fromView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="From" />
 
         <TextView
             android:id="@+id/priorityView"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:text="Priority" />
+    </RelativeLayout>
 
-    </LinearLayout>
+    <TextView
+        android:id="@+id/previewView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Preview"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </LinearLayout>
