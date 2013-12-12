@@ -94,10 +94,10 @@ public class InfoFragment extends Fragment {
 		// layout
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
 				this.getActivity().getApplicationContext(), R.array.type_array,
-				android.R.layout.simple_spinner_item);
+				R.layout.custom_spinner);
 
 		// Specify the layout to use when the list of choices appears
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_item);
 		// Apply the adapter to the spinner
 		typeSpinner.setAdapter(adapter);
 		typeSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -125,10 +125,10 @@ public class InfoFragment extends Fragment {
 		// layout
 		ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(
 				this.getActivity().getApplicationContext(), R.array.priority_array,
-				android.R.layout.simple_spinner_item);
+				R.layout.custom_spinner);
 
 		// Specify the layout to use when the list of choices appears
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_item);
 		// Apply the adapter to the spinner
 		prioritySpinner.setAdapter(adapter2);
 		prioritySpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
