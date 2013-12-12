@@ -6,7 +6,6 @@
     android:padding="10dip" 
      android:id="@+id/question_fragment_layout">
 	
-    
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="13dp"
@@ -14,6 +13,7 @@
         android:orientation="horizontal" >
 
         <TextView
+            android:id="@+id/sub1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="13dip"
@@ -23,12 +23,14 @@
             android:id="@+id/question_subject"
             android:layout_width="250dp"
             android:layout_height="45dp"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/sub1"
             android:layout_weight="1"
             android:background="#999999"
-            android:text=""
+            android:ems="10"
             android:textColor="#000000"
             android:textSize="14pt" />
+
     </RelativeLayout>
 
     <RelativeLayout
