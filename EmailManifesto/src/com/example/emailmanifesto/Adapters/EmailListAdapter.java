@@ -63,14 +63,14 @@ public class EmailListAdapter extends ResourceCursorAdapter{
 			
 			
 		}
-		fromView.setText(R.string.from + message.getFrom());
+		fromView.setText(context.getString(R.string.from) + message.getFrom());
 		subjectView.setText(message.getSubject());
 		// TODO: Do something with previewView
 		
 		
 		
 		timeView.setText(message.getSentTime().toLocalDateTime().toString("MMM' 'd' 'H':'m"));
-		priorityView.setText(R.string.priority + message.getPriority());
+		priorityView.setText(context.getString(R.string.priority) + message.getPriority());
 		switch(message.getPriority()){
 			case 1:priorityView.setBackgroundColor(0x400000FF); break;
 			case 2:priorityView.setBackgroundColor(0x4000B000); break;
