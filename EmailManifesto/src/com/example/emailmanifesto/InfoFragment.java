@@ -9,6 +9,7 @@ import org.joda.time.DateTime;
 import com.example.emailmanifesto.CallBacks.SentEmailCallback;
 import com.example.emailmanifesto.DataModels.EmailMessage;
 import com.example.emailmanifesto.DataModels.InfoMessageContent;
+import com.example.emailmanifesto.Managers.GmailManager;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -27,23 +28,26 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+public class InfoFragment extends Fragment {
 
-
-
-public class InfoFragment extends Fragment{
-
+	String subject, to, cc, description;
+	
 	// references to buttons
-	EditText infoBox = null;
+	EditText subjectBox= null;
+	EditText toBox = null;
+	EditText ccBox = null;
+	EditText descriptionBox = null;
 	Spinner typeSpinner = null;
+	Spinner prioritySpinner = null;
+	
 	Button sendButton = null;
 	ToggleButton respToggle = null;
 
-
-
-
 	String type = "Text";
+	
+	String priority = "1";
+	int intPriority;
 	boolean response = false;
-
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -54,18 +58,13 @@ public class InfoFragment extends Fragment{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-
-
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
-
-
+		
 		return inflater.inflate(R.layout.new_info_fragment, container, false);
-
 
 	}
 
@@ -74,22 +73,28 @@ public class InfoFragment extends Fragment{
 		super.onActivityCreated(savedState);
 
 		// TODO: set up references to buttons and other views here
-		infoBox = (EditText)this.getView().findViewById(R.id.content_value);
-
-		infoBox.setText("");
-
+		subjectBox = (EditText) this.getView().findViewById(R.id.info_subject);
+		toBox = (EditText) this.getView().findViewById(R.id.info_to);
+		ccBox = (EditText) this.getView().findViewById(R.id.info_cc);
+		descriptionBox = (EditText) this.getView().findViewById(R.id.info_description);
+		
+		descriptionBox.setText("");
 
 		// grab buttons and spinners
-		sendButton = (Button)this.getView().findViewById(R.id.sendInfo);
-		this.respToggle = (ToggleButton)this.getView().findViewById(R.id.toggleInfo);
+		sendButton = (Button) this.getView().findViewById(R.id.sendInfo);
+		this.respToggle = (ToggleButton) this.getView().findViewById(
+				R.id.toggleInfo);
 
 		// spinners
 		// type of info message
-		Spinner typeSpinner = (Spinner)this.getView().findViewById(R.id.spinner);
-		// Create an ArrayAdapter using the string array and a default spinner layout
+		Spinner typeSpinner = (Spinner) this.getView().findViewById(
+				R.id.type_spinner);
+
+		// Create an ArrayAdapter using the string array and a default spinner
+		// layout
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-				this.getActivity().getApplicationContext(),
-				R.array.type_array, android.R.layout.simple_spinner_item);
+				this.getActivity().getApplicationContext(), R.array.type_array,
+				android.R.layout.simple_spinner_item);
 
 		// Specify the layout to use when the list of choices appears
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -109,26 +114,57 @@ public class InfoFragment extends Fragment{
 				// TODO Auto-generated method stub
 
 			}
+			
+
+		});
+		
+		Spinner prioritySpinner = (Spinner) this.getView().findViewById(
+				R.id.info_priority);
+
+		// Create an ArrayAdapter using the string array and a default spinner
+		// layout
+		ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(
+				this.getActivity().getApplicationContext(), R.array.priority_array,
+				android.R.layout.simple_spinner_item);
+
+		// Specify the layout to use when the list of choices appears
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		// Apply the adapter to the spinner
+		prioritySpinner.setAdapter(adapter2);
+		prioritySpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int pos, long id) {
+				// TODO Auto-generated method stub
+				priority = (String) parent.getItemAtPosition(pos);
+				intPriority = Integer.parseInt(priority);
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+
+			}
 
 		});
 
-
-
 	}
-
 
 	OnClickListener sendListener = new OnClickListener() {
 
 		@Override
 		public void onClick(View arg0) {
 			// grab all values
-			//			typeSpinner.
-
-			String contentText = infoBox.getText().toString();
+			// typeSpinner.
+			subject = subjectBox.getText().toString();
+			to = toBox.getText().toString();
+			cc = ccBox.getText().toString();
+			description = descriptionBox.getText().toString();
 			// type should already be set
 
 			String test = (String) respToggle.getText();
-			if (test.trim().equalsIgnoreCase("Yes")) {
+			if (test.equals("Yes")) {
 				response = true;
 			} else {
 				response = false;
@@ -136,25 +172,30 @@ public class InfoFragment extends Fragment{
 
 			// create email object
 			EmailMessage email = new EmailMessage();
-			// TODO: set email subject, to, cc, bcc, sentTime AND PRIORITY 
+			// TODO: set email subject, to, cc, bcc, sentTime AND PRIORITY
 			email.setSentTime(new DateTime());
-			email.setSubject("Test Subject 1");
-			email.setTo(new ArrayList<String>(Arrays.asList(new String[]{"scapegoat15@gmail.com"})));
-			email.setCc(new ArrayList<String>(Arrays.asList(new String[]{""})));
-			email.setBcc(new ArrayList<String>(Arrays.asList(new String[]{""})));
-			email.setPriority(3);
+			email.setSubject(subject);
+			email.setTo(new ArrayList<String>(Arrays
+					.asList(new String[] { to })));
+			email.setCc(new ArrayList<String>(Arrays
+					.asList(new String[] { cc })));
+			email.setBcc(new ArrayList<String>(Arrays
+					.asList(new String[] { "" })));
+			email.setPriority( intPriority);
 
 			// create infoMessageContent
-			InfoMessageContent info = new InfoMessageContent(response, 
-					new ArrayList<Object>(Arrays.asList(new String[]{contentText})), 
-					type);
+			InfoMessageContent info = new InfoMessageContent(response,
+					new ArrayList<Object>(
+							Arrays.asList(new String[] { description })), type);
 
 			email.setMessageContent(info);
-
-
+			
+			GmailManager m = (GmailManager)((ComposeActivity) InfoFragment.this.getActivity()).mEmailManager;
+			String from = m.getAccount().name;
+			email.setFrom(from);
 			// TODO: Not yet completed. Not proper way...
-			//			InboxActivity.this.getEmailManager().sendEmailAsync
-			//			(subject, body, recipients, callback);
+			// InboxActivity.this.getEmailManager().sendEmailAsync
+			// (subject, body, recipients, callback);
 			InfoFragment.this.getActivity().getIntent();
 
 			// CSV format
@@ -162,53 +203,43 @@ public class InfoFragment extends Fragment{
 			allRecepients.addAll(email.getTo());
 			allRecepients.addAll(email.getCc());
 			allRecepients.addAll(email.getBcc());
-			String csv = allRecepients.toString().replace("[", "").replace("]", "")
-					.replace(", ", ",");
+			String csv = allRecepients.toString().replace("[", "")
+					.replace("]", "").replace(", ", ",");
+			
+			
 
-
-			((ComposeActivity)InfoFragment.this.getActivity()).
-			mEmailManager.sendEmailWithJsonAttachmentAsync
-			("Test subject", contentText, csv, email.toJson().toString(), new OnEmailSent());
+			m.sendEmailWithJsonAttachmentAsync(email.getSubject(),
+							description, csv, email.toJson().toString(),
+							new OnEmailSent());
 
 		}
 
-
-
 	};
-
-
 
 	@Override
 	public void onStart() {
 		super.onStart();
 
-
 		// set up onClickListener for send button
 		sendButton.setOnClickListener(sendListener);
 
-
-
-
 	}
 
-
-
-
-	private class OnEmailSent implements SentEmailCallback{
+	private class OnEmailSent implements SentEmailCallback {
 
 		@Override
 		public void onSuccess() {
-			Toast.makeText(getActivity(), ("Successfully sent"), Toast.LENGTH_LONG).show();
-			
+			Toast.makeText(getActivity(), ("Successfully sent"),
+					Toast.LENGTH_LONG).show();
+
 		}
 
 		@Override
 		public void onFailure() {
-			Toast.makeText(getActivity(), ("Email was not sent"), Toast.LENGTH_LONG).show();
+			Toast.makeText(getActivity(), ("Email was not sent"),
+					Toast.LENGTH_LONG).show();
 		}
 
 	}
-
-
 
 }

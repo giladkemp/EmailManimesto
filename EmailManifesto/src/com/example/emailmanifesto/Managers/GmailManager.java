@@ -45,6 +45,11 @@ public class GmailManager implements InterfaceEmailManager {
 	private Account mAccount;
 	private String mToken;
 
+	
+	public Account getAccount() {
+		return mAccount;
+	}
+	
 	@Override
 	public int describeContents() {
 		return hashCode();
