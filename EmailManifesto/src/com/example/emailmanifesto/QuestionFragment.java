@@ -189,11 +189,6 @@ String subject, to, cc, description, question, responseText;
 			m.sendEmailWithJsonAttachmentAsync(email.getSubject(),
 							sb.toString(), csv, email.toJson().toString(),
 							new OnEmailSent());
-
-			m.sendEmailWithJsonAttachmentAsync(email.getSubject(),
-							sb.toString(), csv, email.toJson().toString(),
-							new OnEmailSent());
-
 		}
 
 	};
