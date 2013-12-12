@@ -13,45 +13,30 @@
         android:layout_height="match_parent"
         android:orientation="vertical" >
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/subjectView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.14" >
-
-            <TextView
-                android:id="@+id/subjectView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Subject"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-
-            <TextView
-                android:id="@+id/tstampView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Timestamp" />
-        </LinearLayout>
+            android:text="Subject"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
             android:id="@+id/fromView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="From" />
-        
-        <!-- Content  View will go here
-        I am envisioning a view whose layout i can change depending on the type
-        of message. I have the layouts for each made -->
-        <View 
-            android:id="@+id/contentView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>    "
-        
-        <Button
-            android:id="@+id/sendButton"
+
+        <TextView
+            android:id="@+id/tstampView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.14"
-            android:text="Send Response" />
+            android:text="Timestamp" />
+
+        <TextView
+            android:id="@+id/contentView"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent" />
+            
     </LinearLayout>
 
 </FrameLayout>

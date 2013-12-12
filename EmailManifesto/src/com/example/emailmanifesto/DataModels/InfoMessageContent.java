@@ -12,6 +12,8 @@ public class InfoMessageContent implements InterfaceMessageContent {
 	private List<Object> attachedContent = new ArrayList<Object>();
 	private String type;
 	
+	public static final String TYPE_TEXT = "text";
+	
 	//constructors
 	public InfoMessageContent(boolean responseRequested,
 			List<Object> attachedContent, String type) {

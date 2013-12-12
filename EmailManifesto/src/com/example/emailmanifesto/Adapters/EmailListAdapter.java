@@ -48,7 +48,7 @@ public class EmailListAdapter extends ResourceCursorAdapter{
 		TextView priorityView = (TextView) view.findViewById(R.id.priorityView);
 		
 		String jsonText = cursor.getString(cursor.getColumnIndex(SQLiteInbox.INBOX_COLUMN_ATTACHMENT));
-		EmailMessage message = new EmailMessage();
+		EmailMessage message = null;
 		
 		try {
 			message = EmailMessage.fromJson(new JSONObject(jsonText));
@@ -56,15 +56,10 @@ public class EmailListAdapter extends ResourceCursorAdapter{
 			Log.e(TAG, "Invalid JSON file", ex);
 		}
 		if (message == null) {
-			
 			// if json rets w/ error
 			// TODO: Fix accordingly
+			// lets just hope this doesn't happen for now >.>
 			return;
-			
-			
-			
-			
-			
 		}
 		fromView.setText(context.getString(R.string.from) + message.getFrom());
 		subjectView.setText(message.getSubject());
@@ -81,9 +76,10 @@ public class EmailListAdapter extends ResourceCursorAdapter{
 			previewView.setText(context.getString(R.string.email_type_question));
 		}
 		
-		
-		
+		//set time view to display "Mon 00 00:00"
 		timeView.setText(message.getSentTime().toLocalDateTime().toString("MMM' 'd' 'H':'m"));
+		
+		//set priority view and background color accordingly
 		priorityView.setText(context.getString(R.string.priority) + message.getPriority());
 		switch(message.getPriority()){
 			case 1:priorityView.setBackgroundColor(0x600000FF); break;
@@ -91,9 +87,6 @@ public class EmailListAdapter extends ResourceCursorAdapter{
 			case 3:priorityView.setBackgroundColor(0x60FFFF00); break;
 			case 4:priorityView.setBackgroundColor(0x60FF8000); break;
 			case 5:priorityView.setBackgroundColor(0x60FF0000); break;
-		}
-		
-		Log.e(TAG, message.getFrom());
-		
+		}		
 	}
 }

@@ -55,10 +55,10 @@ public class InboxActivity extends ListActivity implements
 		
 //		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 //		SharedPreferences.Editor editor = settings.edit();
-//		editor.putLong(UID, 10000);
+//		editor.putLong(UID, 11000);
 //		editor.commit();
 
-		// Set up the action bar to show a dropdown list.
+		// Set up the action bar
 		final ActionBar actionBar = getActionBar();
 		actionBar.setTitle("Inbox");
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD); 
@@ -79,20 +79,31 @@ public class InboxActivity extends ListActivity implements
 		new UpdateInboxOperation().execute(new Void[0]);
 		
 		//set up connection to MessageActivity
-		ListView lv = getListView();
-		lv.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,int position, long id){
-				if (parent == null) {
-					return;
-				}
-				EmailMessage message = (EmailMessage) parent.getItemAtPosition(position);
-				Intent messageIntent = new Intent(InboxActivity.this, MessageActivity.class);
-				messageIntent.putExtra("message", message.toJson().toString());
-				
-			}
-		});
+		getListView().setOnItemClickListener(new OnMessageSelectedListener());
 
+	}
+	
+	private class OnMessageSelectedListener implements OnItemClickListener{
+
+		@Override
+		public void onItemClick(AdapterView<?> listView, View view, int position,
+				long id) {
+			if(listView == null){
+				return;
+			}
+			Cursor cursor = (Cursor) listView.getItemAtPosition(position);
+			
+			//get the JSON attachment
+			String attachment = cursor.getString(cursor.getColumnIndex(SQLiteInbox.INBOX_COLUMN_ATTACHMENT));
+			if(attachment != null && !attachment.equals("")){
+				//send intent to open up message reader
+				Intent messageReader = new Intent(InboxActivity.this, MessageActivity.class);
+				messageReader.putExtra(MessageActivity.JSON_STRING_EXTRA, attachment);
+				InboxActivity.this.startActivity(messageReader);
+			}
+			
+		}
+		
 	}
 	
 	private void managerInitialization(){
@@ -128,6 +139,8 @@ public class InboxActivity extends ListActivity implements
 		@Override
 		protected void onPostExecute(Void result) {
 			Toast.makeText(InboxActivity.this, "Update operation complete!", Toast.LENGTH_LONG).show();
+			
+			Log.e(TAG, "Done getting emails!");
 			
 			Cursor c = mInboxManager.getCursorToEmails();;
 			

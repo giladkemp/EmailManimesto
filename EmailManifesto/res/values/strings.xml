@@ -12,8 +12,9 @@
     <string name="from">From: </string>
     <string name="priority">Priority: </string>
     <string name="timestamp">Sent: </string>
-    <string name="email_type_info">Information message with </string>
+    <string name="email_type_info">Information Message with </string>
     <string name="email_type_meeting">Meeting Request</string>
     <string name="email_type_question">Questions</string>
+    <string name="subject">Subject: </string>
 
 </resources>
